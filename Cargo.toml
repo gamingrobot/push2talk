@@ -23,7 +23,6 @@ log = "0.4.20"
 signal-hook = "0.3.17"
 strum = "0.25.0"
 strum_macros = "0.25.3"
-xkbcommon = "0.7.0"
 libpulse-binding = "2.0"
 nix = { version = "0.29", features = ["signal", "process"] }
 procfs = "0.16.0"

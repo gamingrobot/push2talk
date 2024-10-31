@@ -10,7 +10,7 @@
 
 ## 🥅 Quick Start
 
-Upon initialization, the application mutes all microphones. To unmute, press <kbd>Control_Left</kbd>+<kbd>Space</kbd>, and release to mute again.
+Upon initialization, the application mutes all microphones. To unmute, press <kbd>F10</kbd>, and release to mute again.
 
 - Suspend/resume functionality available via `SIGUSR1`.
 
@@ -36,7 +36,8 @@ sudo usermod -a -G input $USER
 ## 🎤 Advanced Configuration
 
 - Trace mode for key and source device identification: `env RUST_LOG=trace push2talk`.
-- Custom keybinds via environment variables: `env PUSH2TALK_KEYBIND="Control_L,Space" push2talk`.
+https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
+- Custom keybinds via environment variables: `env PUSH2TALK_KEYBIND="68" push2talk`. 
 - Debug logging: `RUST_LOG=debug push2talk`.
 - Specify a particular audio source: `env PUSH2TALK_SOURCE="OpenComm by Shokz" push2talk`.
 - Systemd unit provided: `systemctl --user start push2talk.service`.
