@@ -8,6 +8,8 @@
 
 # Push-to-Talk: Seamless Integration with Wayland, X11, PulseAudio & PipeWire
 
+Fork of [cyrinux/push2talk](https://github.com/cyrinux/push2talk) but removes xkbcommon because it doesnt support F13+ function keys
+
 ## 🥅 Quick Start
 
 Upon initialization, the application mutes all microphones. To unmute, press <kbd>F10</kbd>, and release to mute again.
@@ -16,17 +18,34 @@ Upon initialization, the application mutes all microphones. To unmute, press <kb
 
 ## ⚠️ Prerequisites
 
-Membership in the `input` or `plugdev` group may be necessary. Check `/dev/input/*` for your specific distribution.
+### Install depends
+```
+sudo dnf install rust-libudev-devel rust-input-devel
+```
 
-```bash
-sudo usermod -a -G plugdev $USER
-sudo usermod -a -G input $USER
+### Setup UDEV rule
+Get Vendor ID of input device via lsusb (should be in the format `<vendorid>:<productid>`)
+```
+lsusb 
+```
+
+Edit /etc/udev/rules.d/60-push2talk.rules replace `<vendorid>` with the ID from lsusb
+```
+KERNEL=="event[0-9]*", SUBSYSTEM=="input", ATTRS{idVendor}=="<vendorid>", MODE="0660", TAG+="uaccess"
+```
+
+Reload udev rules
+```
+sudo udevadm control --reload-rules && udevadm trigger
 ```
 
 ## 📦 Installation Methods
 
-- Arch Linux users: [AUR package available](https://aur.archlinux.org/packages/push2talk-git)
-- Others: Use `cargo install push2talk`
+- Clone the repo and run
+```
+make build
+sudo make install
+```
 
 ## 🎤 Usage
 
@@ -36,8 +55,7 @@ sudo usermod -a -G input $USER
 ## 🎤 Advanced Configuration
 
 - Trace mode for key and source device identification: `env RUST_LOG=trace push2talk`.
-https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h
-- Custom keybinds via environment variables: `env PUSH2TALK_KEYBIND="68" push2talk`. 
+- Custom keybinds via environment variables: `env PUSH2TALK_KEYBIND="68" push2talk`. [Here is a list of keycodes](https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h)
 - Debug logging: `RUST_LOG=debug push2talk`.
 - Specify a particular audio source: `env PUSH2TALK_SOURCE="OpenComm by Shokz" push2talk`.
 - Systemd unit provided: `systemctl --user start push2talk.service`.
