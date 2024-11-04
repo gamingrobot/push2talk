@@ -1,0 +1,12 @@
+[Desktop Entry]
+Comment=
+Encoding=UTF-8
+Exec=env PUSH2TALK_KEYBIND=68 '/usr/bin/push2talk'
+GenericName=
+Name=Push2Talk
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+Version=1.0
+X-KDE-autostart-after=panel
